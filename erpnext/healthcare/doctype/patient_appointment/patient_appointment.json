@@ -83,8 +83,7 @@
    "fieldname": "duration",
    "fieldtype": "Int",
    "in_filter": 1,
-   "label": "Duration (In Minutes)",
-   "set_only_once": 1
+   "label": "Duration (In Minutes)"
   },
   {
    "fieldname": "column_break_1",
@@ -146,8 +145,7 @@
    "label": "Healthcare Practitioner",
    "options": "Healthcare Practitioner",
    "reqd": 1,
-   "search_index": 1,
-   "set_only_once": 1
+   "search_index": 1
   },
   {
    "fetch_from": "practitioner.department",
@@ -158,8 +156,7 @@
    "in_standard_filter": 1,
    "label": "Department",
    "options": "Medical Department",
-   "search_index": 1,
-   "set_only_once": 1
+   "search_index": 1
   },
   {
    "fieldname": "column_break_17",
@@ -180,8 +177,7 @@
    "fieldtype": "Time",
    "in_list_view": 1,
    "label": "Time",
-   "read_only": 1,
-   "reqd": 1
+   "read_only": 1
   },
   {
    "fieldname": "section_break_16",
@@ -349,7 +345,7 @@
   }
  ],
  "links": [],
- "modified": "2021-08-19 17:28:41.329387",
+ "modified": "2022-02-08 12:27:37.618304",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient Appointment",

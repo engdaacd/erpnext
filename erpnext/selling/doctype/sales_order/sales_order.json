@@ -143,7 +143,8 @@
   "to_date",
   "column_break_108",
   "auto_repeat",
-  "update_auto_repeat_reference"
+  "update_auto_repeat_reference",
+  "soo_laabasho"
  ],
  "fields": [
   {
@@ -1507,13 +1508,19 @@
    "fieldtype": "Small Text",
    "label": "Dispatch Address",
    "read_only": 1
+  },
+  {
+   "default": "NB: Soo laabashadu waaTodobo (7) casho Gudahood",
+   "fieldname": "soo_laabasho",
+   "fieldtype": "HTML",
+   "label": "Soo laabasho"
   }
  ],
  "icon": "fa fa-file-text",
  "idx": 105,
  "is_submittable": 1,
  "links": [],
- "modified": "2021-09-28 13:09:51.515542",
+ "modified": "2022-01-11 12:16:49.911850",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sales Order",

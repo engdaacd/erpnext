@@ -129,8 +129,8 @@ class PatientAppointment(Document):
 		if frappe.db.get_single_value('Healthcare Settings', 'automate_appointment_invoicing'):
 			details = get_service_item_and_practitioner_charge(self)
 			self.db_set('billing_item', details.get('service_item'))
-			if not self.paid_amount:
-				self.db_set('paid_amount', details.get('practitioner_charge'))
+			# if not self.paid_amount:
+			# 	self.db_set('paid_amount', details.get('practitioner_charge'))
 
 	def validate_customer_created(self):
 		if frappe.db.get_single_value('Healthcare Settings', 'automate_appointment_invoicing'):
@@ -196,13 +196,18 @@ def invoice_appointment(appointment_doc):
 		fee_validity = None
 
 	if automate_invoicing and not appointment_invoiced and not fee_validity:
-		create_sales_invoice(appointment_doc)
+		if not appointment_doc.is_free:
+			create_sales_invoice(appointment_doc)
 
 
 def create_sales_invoice(appointment_doc):
 	sales_invoice = frappe.new_doc('Sales Invoice')
 	sales_invoice.patient = appointment_doc.patient
 	sales_invoice.customer = frappe.get_value('Patient', appointment_doc.patient, 'customer')
+	sales_invoice.practitioner_name = appointment_doc.practitioner
+	sales_invoice.ref_practitioner = appointment_doc.practitioner
+	if appointment_doc.insurance:
+		sales_invoice.customer = appointment_doc.customer
 	sales_invoice.appointment = appointment_doc.name
 	sales_invoice.due_date = getdate()
 	sales_invoice.company = appointment_doc.company
@@ -210,9 +215,11 @@ def create_sales_invoice(appointment_doc):
 
 	item = sales_invoice.append('items', {})
 	item = get_appointment_item(appointment_doc, item)
-
+	sales_invoice.is_pos = 0
+	if appointment_doc.discount:
+		sales_invoice.additional_discount_account = appointment_doc.discount
 	# Add payments if payment details are supplied else proceed to create invoice as Unpaid
-	if appointment_doc.mode_of_payment and appointment_doc.paid_amount:
+	if  appointment_doc.paid_amount:
 		sales_invoice.is_pos = 1
 		payment = sales_invoice.append('payments', {})
 		payment.mode_of_payment = appointment_doc.mode_of_payment

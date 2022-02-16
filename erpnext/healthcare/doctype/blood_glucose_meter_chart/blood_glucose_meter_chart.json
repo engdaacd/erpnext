@@ -1,0 +1,117 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "Met.#####",
+ "creation": "2022-01-22 14:11:09.742944",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "patient",
+  "patient_name",
+  "date",
+  "time",
+  "rbs",
+  "fbs",
+  "insulin",
+  "nurse",
+  "nurse_name",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "time",
+   "fieldtype": "Time",
+   "in_list_view": 1,
+   "label": "Time",
+   "reqd": 1
+  },
+  {
+   "fieldname": "rbs",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "RBS"
+  },
+  {
+   "fieldname": "fbs",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "FBS"
+  },
+  {
+   "fieldname": "insulin",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Unit of insulin"
+  },
+  {
+   "default": "User",
+   "fieldname": "nurse",
+   "fieldtype": "Link",
+   "label": "Nurse User",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "label": "Patient",
+   "options": "Patient"
+  },
+  {
+   "fetch_from": "patient.patient_name",
+   "fieldname": "patient_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Patient Name"
+  },
+  {
+   "fetch_from": "nurse.full_name",
+   "fieldname": "nurse_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Nurse Name"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Blood Glucose Meter Chart",
+   "print_hide": 1,
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2022-01-24 12:20:04.439959",
+ "modified_by": "Administrator",
+ "module": "Healthcare",
+ "name": "Blood Glucose Meter Chart",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "title_field": "patient_name"
+}

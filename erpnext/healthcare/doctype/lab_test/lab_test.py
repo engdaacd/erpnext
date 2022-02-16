@@ -139,7 +139,7 @@ def create_lab_test_from_invoice(sales_invoice):
 			if lab_test_created != 1:
 				template = get_lab_test_template(item.item_code)
 				if template:
-					lab_test = create_lab_test_doc(True, invoice.ref_practitioner, patient, template, invoice.company)
+					lab_test = create_lab_test_doc(invoice.name ,True, invoice.ref_practitioner, patient, template, invoice.company)
 					if item.reference_dt == 'Lab Prescription':
 						lab_test.prescription = item.reference_dn
 					lab_test.save(ignore_permissions = True)
@@ -158,9 +158,10 @@ def get_lab_test_template(item):
 		return frappe.get_doc('Lab Test Template', template_id)
 	return False
 
-def create_lab_test_doc(invoiced, practitioner, patient, template, company):
+def create_lab_test_doc(name,invoiced, practitioner, patient, template, company):
 	lab_test = frappe.new_doc('Lab Test')
 	lab_test.invoiced = invoiced
+	lab_test.invoice_number = name
 	lab_test.practitioner = practitioner
 	lab_test.patient = patient.name
 	lab_test.patient_age = patient.get_age()

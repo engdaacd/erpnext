@@ -659,6 +659,14 @@ def get_held_invoices(party_type, party):
 def get_outstanding_invoices(party_type, party, account, condition=None, filters=None):
 	outstanding_invoices = []
 	precision = frappe.get_precision("Sales Invoice", "outstanding_amount") or 2
+	logi_user = frappe.session.user
+	owners = ('1','2')
+	if logi_user in ('cashier@dsh.so' , 'cashiernight@gmail.com'):
+
+		owners = ('cashier@dsh.so' , 'cashiernight@gmail.com')
+	if logi_user in ('pharmacynight@dsh.so' , 'nightpharmacy@dsh.so' ,'phamacy@dash.so' ):
+		owners = ('pharmacynight@dsh.so' , 'nightpharmacy@dsh.so' ,'phamacy@dash.so' )
+	
 
 	if account:
 		root_type, account_type = frappe.get_cached_value("Account", account, ["root_type", "account_type"])
@@ -673,9 +681,10 @@ def get_outstanding_invoices(party_type, party, account, condition=None, filters
 	else:
 		dr_or_cr = "credit_in_account_currency - debit_in_account_currency"
 		payment_dr_or_cr = "debit_in_account_currency - credit_in_account_currency"
-
+	
+	
 	held_invoices = get_held_invoices(party_type, party)
-
+	owners = ('pharmacynight@dsh.so' , 'nightpharmacy@dsh.so' ,'phamacy@dash.so' )
 	invoice_list = frappe.db.sql("""
 		select
 			voucher_no, voucher_type, posting_date, due_date,
@@ -687,12 +696,14 @@ def get_outstanding_invoices(party_type, party, account, condition=None, filters
 			party_type = %(party_type)s and party = %(party)s
 			and account = %(account)s and {dr_or_cr} > 0
 			and is_cancelled=0
+			and owner  in {0}
 			{condition}
 			and ((voucher_type = 'Journal Entry'
 					and (against_voucher = '' or against_voucher is null))
 				or (voucher_type not in ('Journal Entry', 'Payment Entry')))
 		group by voucher_type, voucher_no
 		order by posting_date, name""".format(
+			owners,
 			dr_or_cr=dr_or_cr,
 			condition=condition or ""
 		), {

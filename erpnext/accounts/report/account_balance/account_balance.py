@@ -43,7 +43,7 @@ def get_columns(filters):
 	return columns
 
 def get_conditions(filters):
-	conditions = {}
+	conditions = {"name" : "Cash - DASH"}
 
 	if filters.account_type:
 		conditions["account_type"] = filters.account_type

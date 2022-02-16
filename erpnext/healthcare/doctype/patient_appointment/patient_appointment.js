@@ -53,55 +53,9 @@ frappe.ui.form.on('Patient Appointment', {
 
 		frm.trigger('set_therapy_type_filter');
 
-		if (frm.is_new()) {
-			frm.page.set_primary_action(__('Check Availability'), function() {
-				if (!frm.doc.patient) {
-					frappe.msgprint({
-						title: __('Not Allowed'),
-						message: __('Please select Patient first'),
-						indicator: 'red'
-					});
-				} else {
-					frappe.call({
-						method: 'erpnext.healthcare.doctype.patient_appointment.patient_appointment.check_payment_fields_reqd',
-						args: { 'patient': frm.doc.patient },
-						callback: function(data) {
-							if (data.message == true) {
-								if (frm.doc.mode_of_payment && frm.doc.paid_amount) {
-									check_and_set_availability(frm);
-								}
-								if (!frm.doc.mode_of_payment) {
-									frappe.msgprint({
-										title: __('Not Allowed'),
-										message: __('Please select a Mode of Payment first'),
-										indicator: 'red'
-									});
-								}
-								if (!frm.doc.paid_amount) {
-									frappe.msgprint({
-										title: __('Not Allowed'),
-										message: __('Please set the Paid Amount first'),
-										indicator: 'red'
-									});
-								}
-							} else {
-								check_and_set_availability(frm);
-							}
-						}
-					});
-				}
-			});
-		} else {
-			frm.page.set_primary_action(__('Save'), () => frm.save());
-		}
+		frm.page.set_primary_action(__('Save'), () => frm.save());
 
-		if (frm.doc.patient) {
-			frm.add_custom_button(__('Patient History'), function() {
-				frappe.route_options = { 'patient': frm.doc.patient };
-				frappe.set_route('patient_history');
-			}, __('View'));
-		}
-
+	
 		if (frm.doc.status == 'Open' || (frm.doc.status == 'Scheduled' && !frm.doc.__islocal)) {
 			frm.add_custom_button(__('Cancel'), function() {
 				update_status(frm, 'Cancelled');
